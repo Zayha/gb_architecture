@@ -1,0 +1,27 @@
+@startuml
+package DIP{
+class Car {
+  - engine: Engine
+  + Car(engine: Engine)
+  + getEngine(): Engine
+  + start(): void
+}
+
+interface Engine {
+  + start(): void
+}
+
+class DiselEngine {
+  + start(): void
+}
+
+class PetrolEngine {
+  + start(): void
+}
+
+DiselEngine ..|> Engine
+PetrolEngine ..|> Engine
+Car *-- DiselEngine
+Car *-- PetrolEngine
+}
+@enduml

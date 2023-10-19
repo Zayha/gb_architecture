@@ -1,0 +1,31 @@
+@startuml
+package ISP {
+interface Shape {
+  + perimetr(): double
+}
+
+interface Shape3d {
+  + value(): double
+}
+
+class Cube {
+  - side: int
+  + Cube(side: int)
+  + getSide(): int
+  + perimetr(): double
+  + value(): double
+}
+
+class Circle {
+  - radius: int
+  + Circle(radius: int)
+  + getRadius(): int
+  + perimetr(): double
+}
+
+Shape3d --|> Shape
+Cube ..|> Shape3d
+Circle ..|> Shape
+@enduml
+
+@enduml

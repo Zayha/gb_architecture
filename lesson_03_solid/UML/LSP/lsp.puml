@@ -1,0 +1,29 @@
+@startuml
+package LSP {
+abstract class QuadRangle {
+  + area(): int
+}
+
+class Rectangle {
+  - height: int
+  - width: int
+  + getHeight(): int
+  + setHeight(height: int): void
+  + getWidth(): int
+  + setWidth(width: int): void
+  + Rectangle(height: int, width: int)
+  + area(): int
+}
+
+class Square {
+  - length: int
+  + getLength(): int
+  + setLength(length: int): void
+  + Square(length: int)
+  + area(): int
+}
+
+QuadRangle <|-- Rectangle
+QuadRangle <|-- Square
+}
+@enduml

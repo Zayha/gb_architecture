@@ -1,0 +1,26 @@
+@startuml
+package OCP {
+class Vehicle {
+  - maxspeed: int
+  - type: String
+  + Vehicle(maxspeed: int, type: String)
+  + getMaxspeed(): int
+  + getType(): String
+  + calculateAllowedSpeed(): double
+  + toString(): String
+}
+
+class Car {
+  + Car(maxspeed: int)
+  + calculateAllowedSpeed(): double
+}
+
+class Bus {
+  + Bus(maxspeed: int)
+  + calculateAllowedSpeed(): double
+}
+
+Vehicle <|-- Car
+Vehicle <|-- Bus
+}
+@enduml
