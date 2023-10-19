@@ -13,7 +13,6 @@ class Cube {
   + Cube(side: int)
   + getSide(): int
   + perimetr(): double
-  + value(): double
 }
 
 class Circle {

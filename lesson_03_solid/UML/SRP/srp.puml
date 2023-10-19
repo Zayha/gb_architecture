@@ -1,14 +1,14 @@
 @startuml
 package SRP {
   class ClalucateSalary {
-    - baseSalary: int
-    - valueTime: int
+    + baseSalary: int
+    + valueTime: int
     + ClalucateSalary(baseSalary: int, valueTime: int)
     + calculateSalary(): int
   }
 
   class Emploee {
-    - name: String
+    + name: String
     + Emploee(name: String)
     + toString(): String
   }
