@@ -1,0 +1,48 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Ticket {
+-price_ticket: float
+-place: int
+-root_number: int
+-date_time: DateTime
+-is_valid: bool
++set_price(float)
++set_place(int)
++get_place():int
++get_price():float
++is_valid_true:True
+}
+
+class TicketProvider {
++update_ticket(Ticket):bool
++get_ticket(int):Ticket
+}
+
+class CashProvider {
+-card: int
+-is_authorization: bool
+-reserved_funds: float
++buy(int): bool
++authorization(customer_id: int): bool
++set_reserved_funds(price: float)
++set_card_number(number: int)
+}
+
+class Customer {
+-id: int
+-tickets: List[Ticket]
+-cash: CashProvider
++get_id
++set_card(int)
++get_card: int
++buy_ticket(Ticket): bool
++search_ticket(date):Ticket
+
+
+}
+Customer -- TicketProvider
+CashProvider -- TicketProvider
+Customer o-- Ticket
+Customer *-- CashProvider
+@enduml
