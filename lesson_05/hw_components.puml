@@ -1,0 +1,117 @@
+@startuml
+skinparam componentStyle rectangle
+
+package Market {
+
+component View {
+class WebInterface {
+
+}
+class AuthorizationBlock {
+-data_in: str
+-data_out: str
++load(data_in) : bool
++send(data_out) : boll
+}
+class Header {
+-data_in: str
+-data_out: str
++load(data_in) : bool
++send(data_out) : boll
+}
+class Content {
+-data_in: str
+-data_out: str
++load(data_in) : bool
++send(data_out) : boll
+}
+class Footer {
+-data_in: str
+-data_out: str
++load(data_in) : bool
++send(data_out) : boll
+}
+WebInterface o-- Header
+WebInterface o-- Content
+WebInterface o-- Footer
+WebInterface o-- AuthorizationBlock
+}
+
+package Model <<Database>>  {
+class DB  {
+}
+
+}
+
+component Controller {
+class Processes {
+
+}
+class Payment {
++card:int
++payment_transaction(card) : bool
+}
+class User {
++registration(id:str, first_name:str, last_name:str,
+address:str, email:Email, phone:str, password:str)
++id:int
++first_name:str
++last_name:str
++account:str
++address:str
++email:Email
++phone:str
++rating:int
++password:str
++authorization(email: Email, password: str): bool
++logout() : bool
++buy() : bool
+}
+class Item {
++id:int
++title:str
++description:str
++price: decimal
++weight: int
++qty: int
+}
+class Discount {
++get_discount(item: Item, user: User) : int
+}
+class Search {
++text: str
++search(text) : Item
+}
+class Basket {
++add_item(item: Item)
++del_item(item: Item)
+}
+Processes o-- Payment
+Processes o-- User
+Processes o-- Item
+Processes o-- Discount
+Processes o-- Search
+Processes o-- Basket
+}
+
+interface ORM {
++raw_data
+Create()
+Read()
+Update()
+Delete()
+}
+interface RouterEventHandler {
+GET HTTP REQUESTS
+TEMPLATES LOAD
+}
+
+
+View ..|> RouterEventHandler
+Controller ..|> RouterEventHandler
+Model ...|> ORM
+Controller ..|> ORM
+
+}
+
+@enduml
