@@ -1,0 +1,125 @@
+
+schedule {
+	id integer pk increments
+	patientid integer > patient.id
+	scheduledoctorid integer > scheduledoctor.id
+	datetime datetime
+	comment text
+}
+
+healthHistory {
+	id integer pk increments
+	testid integer > test.id
+	diagnosisid integer > diagnos.id
+	patientid integer > patient.id
+}
+
+patient {
+	id integer pk increments
+	typePolicy text
+	numberPolicy integer
+	fio text
+	dateofB date
+	sex binary
+	healthHistoryid integer > healthHistory.id
+	medical_cardid integer > medical_card.id
+}
+
+doctor {
+	id integer pk increments
+	fio text
+	speciality text
+}
+
+test {
+	id integer pk increments
+	testtypeid integer > testtype.id
+	datetime datetime
+	results text
+	alert bool
+	laboratory integer
+	laboratory_personalid integer > laboratory_personal.id
+	is_visible bool
+	patientid integer > patient.id
+}
+
+diagnos {
+	id integer pk increments
+	icd10id integer > icd10.id
+	comment text
+	datetime datetime
+	doctorid integer > doctor.id
+	patientid integer > patient.id
+}
+
+icd10 {
+	id integer pk increments
+	code char
+	description text
+}
+
+purpose_of_treatment {
+	id integer pk increments
+	patientid integer > patient.id
+	doctorid integer > doctor.id
+	dietid integer > diet.id
+	medical_treatmentid integer > medical_treatment.id
+	medical_procedureid integer > medical_procedure.id
+	datetime datetime
+}
+
+laboratory_personal {
+	id integer pk increments
+	fio text
+	speciality text
+}
+
+testtype {
+	id integer pk increments
+	code char
+	description text
+}
+
+diet {
+	id integer pk increments
+	description text
+	datetime datetime
+}
+
+medicament {
+	id integer pk increments
+	name text
+	latin_name text
+	description
+}
+
+medical_treatment {
+	id integer pk increments
+	medicamentid integer > medicament.id
+	dosage text
+	duration_of_reception integer
+	comment text
+}
+
+medical_procedure {
+	id integer pk increments
+	comment text
+}
+
+medical_card {
+	id integer pk increments
+	patientid integer > patient.id
+	healthHistoryid integer > healthHistory.id
+	testid integer > test.id
+	purpose_of_treatmentid integer > purpose_of_treatment.id
+}
+
+scheduledoctor {
+	id integer pk increments
+	datetime datetime
+	time_window integer
+	doctorid integer > doctor.id
+	numberoffice integer
+}
+
+
