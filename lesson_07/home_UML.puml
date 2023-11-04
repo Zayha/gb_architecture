@@ -1,0 +1,81 @@
+@startuml
+
+'!define DataLayer class #DDDDDD
+'!define LogicLayer class #FFA500
+'!define AdapterLayer class #87CEEB
+
+!define endclass
+
+package "Data Layer" {
+  class Product <<DataLayer>> {
+    - id: int
+    - name: int
+    - idSubCategory: int
+    - price: int
+    - idProvider: int
+    - idType: int
+  }
+  class SubCategory <<DataLayer>> {
+    - id: int
+    - name: int
+    - idCategory: int
+  }
+  class Category <<DataLayer>> {
+    - id: int
+    - name: int
+  }
+  class Schedule <<DataLayer>> {
+    - id: int
+    - idProduct: int
+    - count: int
+    - date: date
+  }
+  class Type <<DataLayer>> {
+    - id: int
+    - name: int
+  }
+  class Provider <<DataLayer>> {
+    - id: int
+    - name: text
+    - detailsCompany: text
+    - adress: text
+  }
+}
+
+package "Business Logic Layer" {
+  class LogicReportGeneratorServer <<LogicLayer>> {
+    + generateReport(): list
+  }
+  interface ORM {
+  -create()
+  -read()
+  -update()
+  -delete()
+  }
+
+  interface iAdapter {
+    Report GenerateReport(ReportType reportType, ReportParameters parameters);
+  }
+}
+LogicReportGeneratorServer *-- ORM
+LogicReportGeneratorServer *-- iAdapter
+
+
+
+package "Adapter Layer" {
+  class AdapterCSRPage <<AdapterLayer>> {
+    + generateReport(reportType: ReportType, parameters: ReportParameters): Report
+    + convertToJSON(report: Report): string
+
+  }
+}
+
+Product --* SubCategory
+Product -- Type : 1
+Product --* Provider
+SubCategory --* Category
+Schedule --* Product
+"Data Layer" ..|> ORM
+"Adapter Layer" ..|> iAdapter
+
+@enduml
