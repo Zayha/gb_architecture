@@ -1,0 +1,98 @@
+@startuml
+package MVP {
+
+class Model {
+  +createClient(name: string, phoneNumber: int, hashPassword: string): void
+  +createSchedule(idClient: int, idTable: int, dateTime: timestamp, countClient: int): void
+
+}
+class Table {
+  -id: int
+  -countClient: int
+  -idImageTable: int
+  -idHall: int
+
+}
+class ImageTable {
+  -id: int
+  -image: string
+}
+class Hall {
+  -id: int
+  -nameHall: string
+  -basePrice: int
+}
+class Schedule {
+  -id: int
+  -idClient: int
+  -idTable: int
+  -dateTime: timestamp
+  -countClient: int
+}
+class Client {
+  -id: int
+  -name: string
+  -phoneNumber: int
+  -hashPassword: string
+}
+Client -- Schedule: 1
+Client -- Model
+Table -- Schedule: 1
+Table -- ImageTable: 1
+Hall o- Table : 1..*
+
+
+
+class Presenter {
+  -model: Model
+  -view: View
+  +Presenter(model: Model, view: View)
+  +processLogin(username: string, password: string): void
+  +processRegistration(name: string, phoneNumber: int, email: string): void
+  +processReservation(selectedTable: Table, date: Date, startTime: Time, endTime: Time): void
+  +setView(view: View): void
+  +login(username: string, password: string): void
+  +register(name: string, phoneNumber: string, email: string): void
+  +reserveTable(table: Table, dateTime: DateTime): void
+  +setView(view: View): void
+  +loadAvailableTables(date: Date, startTime: Time, endTime: Time): void
+  +reserveTable(table: Table, dateTime: DateTime): void
+}
+
+
+class View {
+  -name: string
+  -phone: integer
+  -email: string
+  -password: string
+
+  +setName(name: string): void
+  +setPhone(phone: integer): void
+  +setEmail(email: string): void
+  +setPassword(password: string): void
+  +getName(): string
+  +getPhone(): integer
+  +getEmail(): string
+  +getPassword(): string
+  +setPresenter(presenter: Presenter): void
+  +showLoginForm(): void
+  +showRegistrationForm(): void
+  +showReservationForm(tables: Table[]): void
+  +getLoginData(): LoginData
+  +getRegistrationData(): RegistrationData
+  +getReservationData(): ReservationData
+  +displayMessage(message: string): void
+  +setPresenter(presenter: Presenter): void
+  +showMap(): void
+  +highlightAvailableTables(tables: Table[]): void
+  +selectTable(table: Table): void
+}
+
+
+Model -- Table
+View -- Presenter
+Presenter -- Model
+
+
+}
+@enduml
