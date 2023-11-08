@@ -1,0 +1,355 @@
+openapi: 3.0.3
+info:
+  title: Получение информации о клиентах
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080/api/v1
+paths:
+  /clients:
+    get:
+      summary: Метод получения списка клиентов
+      tags: 
+        - Clients
+      operationId: getAllClients
+      responses:
+        '200':
+          description: Успешный ответ со списком клиентов
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Clients'
+        'default':
+          description: Всё остальное
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Метод добавления нового клиента в список
+      tags: 
+        - Clients
+      operationId: createClient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        '200':
+          description: Успешный ответ добавления нового клиента
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        'default':
+          description: Всё остальное
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/clients/{idClient}':
+    get:
+      summary: Метод получения клиента по id
+      tags:
+        - Clients
+      operationId: getClientId
+      parameters:
+        - name: idClient
+          in: path
+          required: true
+          description: id Client
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ получения клиента по id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        'default':
+          description: Всё остальное
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Удаление клиента по id
+      tags:
+        - Clients
+      operationId: deleteClientById
+      parameters:
+        - name: idClient
+          in: path
+          required: true
+          description: id Client
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешное удаление клиента по id
+          content:
+            application/json: {}
+        'default':
+          description: Всё остальное
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Метод обновления данных клиента по id
+      tags:
+        - Clients
+      operationId: updateClient
+      parameters:
+        - name: idClient
+          in: path
+          required: true
+          description: id Client
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        '200':
+          description: Успешное обновление данных клиента
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        'default':
+          description: Всё остальное
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /clouds:
+    get:
+      summary: Метод получения списка клиентов
+      tags: 
+        - Clouds
+      operationId: getAllClouds
+      responses:
+        '200':
+          description: Успешный ответ со списком VPS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Clouds'
+        'default':
+          description: Всё остальное
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    post:
+      summary: Метод добавления нового VPS в список
+      tags: 
+        - Clouds
+      operationId: createVPS
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cloud'
+      responses:
+        '200':
+          description: Успешный ответ добавления VP сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cloud'
+        'default':
+          description: Всё остальное
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/clouds/{idCloud}':
+    get:
+      summary: Метод получения VPS по id
+      tags:
+        - Clouds
+      operationId: getCloudId
+      parameters:
+        - name: idCloud
+          in: path
+          required: true
+          description: id Cloud Server
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ получения VP сервера по id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cloud'
+        'default':
+          description: Всё остальное
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Удаление VPS по id
+      tags:
+        - Clouds
+      operationId: deleteCloudById
+      parameters:
+        - name: idCloud
+          in: path
+          required: true
+          description: id Cloud
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешное удаление VPS по id
+          content:
+            application/json: {}
+        'default':
+          description: Всё остальное
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Метод обновления данных VS по id
+      tags:
+        - Clouds
+      operationId: updateCloud
+      parameters:
+        - name: idCloud
+          in: path
+          required: true
+          description: id Cloud
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cloud'
+      responses:
+        '200':
+          description: Успешное обновление данных VPS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cloud'
+        '403':
+          description: Доступ запрещен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  codeError:
+                    type: string
+                    example: "403_m243"
+                  messageError:
+                    type: string
+                    example: "Доступ запрещен"
+        '500':
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '502':
+          description: Ошибка шлюза
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        'default':
+          description: Всё остальное
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          
+components:
+  schemas:
+    Client:
+      type: object
+      required:
+        - idClient
+        - FIO
+        - email
+      properties:
+        idClient:
+          type: integer
+          example: 1
+          description: Id клиента
+        FIO:
+          type: string
+          example: Иванов Кирилл Окович
+          description: ФИО клиента
+        email:
+          type: string
+          example: yohoho@yahoo.tw
+          description: Email клиента
+    Clients:
+      type: array
+      items:
+        $ref: '#/components/schemas/Client'
+    Error:
+      type: object
+      required:
+        - codeError
+        - messageError
+      properties:
+        codeError:
+          type: string
+          example: 123f456
+          description: Код ошибки
+        messageError:
+          type: string
+          example: error
+          description: Сообщение ошибки
+    Cloud:
+      type: object
+      required:
+        - OS
+        - RAM
+        - CPU
+        - SSD
+        - idClient
+      properties:
+        OS:
+          type: string
+          enum:
+            - Windows
+            - Linux
+        RAM:
+          type: integer
+          example: 256
+          description: Количество оперативной памяти
+        CPU:
+          type: integer
+          example: 8
+          description: Количество ядер процессора 
+        SSD:
+          type: integer
+          example: 1024
+          description: Количество SSD памяти
+        idClient:
+          type: integer
+          example: 1
+          description: Id клиента
+    Clouds:
+      type: array
+      items:
+        $ref: '#/components/schemas/Cloud'
+        
