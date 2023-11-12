@@ -1,0 +1,28 @@
+@startuml
+
+actor Actor
+
+usecase login as "Подключение"
+usecase job as "Уборка"
+usecase service as "Обслуживание"
+usecase mode_selection as "Выбор режима"
+usecase schedule as "Расписание"
+usecase chart as "График"
+usecase repair as "Ремонт"
+usecase statistic as "Просмотр статистики"
+usecase upgrade as "Обновление ПО"
+
+
+
+Actor -- login
+Actor -- job
+Actor -- service
+job -- mode_selection
+job -- schedule
+schedule -- chart
+service -- repair
+service -- statistic
+service -- upgrade
+
+
+@enduml
