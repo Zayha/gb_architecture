@@ -1,0 +1,77 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+class Client {
+    user: User
+    refreshToken: Token
+    + getAccessTokenFromServer(user, refreshToken): Token
+    + authenticate(username: String, password: String): Token
+}
+
+class Server {
+    + authenticateUser(username: String, password: String): Token
+    + generateAccessToken(user: User): Token
+    + validateToken(token: Token): boolean
+    + getResourceData(token: Token): Data
+}
+
+class AccessController {
+    + getToken(username: String, password: String): Token
+}
+
+class AccessManager {
+    + generateToken(username: String): Token
+    + verifyToken(token: Token): boolean
+}
+
+class AccessRepo {
+    + getKey(username: String): String
+    + storeToken(token: Token): void
+}
+
+class Token {
+    - username: String
+    - expirationTime: Date
+    - signature: String
+    - payload: Map<String, String>
+    + getUsername(): String
+    + getExpirationTime(): Date
+    + getSignature(): String
+    + getPayload(): Map<String, String>
+}
+
+class User {
+    id: Integer
+    login: String
+    hash: String
+    email: String
+}
+
+class ResourceService {
+    + getResourceData(token: Token)
+}
+
+Client --> Server: authenticate(username, password)
+Server --> AccessController: getToken(username, password)
+Server --> Client: Refresh Token
+Client --> Server: getAccessTokenFromServer(user, refreshToken)
+Server --> AccessManager: verifyToken(token)
+AccessManager --> Server: результат проверки
+Server --> ResourceService: запрос на получение ресурса
+ResourceService --> Server: данные ресурса
+Server --> Client: ресурсная информация (после успешной авторизации)
+
+AccessController --> AccessRepo: getKey(username)
+AccessManager --> AccessRepo: getKey(username)
+AccessManager --> AccessRepo: storeToken(token)
+
+Client --> Server: запрос с JWT
+Server --> AccessManager: проверка токена
+AccessManager --> Server: результат проверки по JWT
+
+
+Server : + authenticateUser(username: String, password: String): Token
+Server : + generateAccessToken(user: User): Token
+Server : + validateToken(token: Token): boolean
+Server : + getResourceData(token: Token): Data
+
+@enduml

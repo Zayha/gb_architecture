@@ -1,0 +1,162 @@
+openapi: 3.0.3
+info:
+  title: Робот-пылесос
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080/api/v1
+    description: dev-server
+paths:
+  /info:
+    get:
+      summary: Метод получения информации
+      tags:
+        - Info
+      operationId: getInfo
+      responses:
+        '200':
+          description: Успешный ответ по статусу сервера
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: OK
+        'default':
+          description: Всё остальное
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/info/{idRobot}':
+    get:
+      summary: Метод для получения статуса робота-пылесоса
+      tags:
+       - Info
+      operationId: getRobotId
+      parameters:
+        - name: idRobot
+          in: path
+          required: true
+          description: id Robot
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ получения робота по id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Robot'
+        'default':
+          description: Всё остальное
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  /token:
+    post:
+      summary: Получение JWT токена авторизации
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Успешный ответ при получении токена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    $ref: '#/components/schemas/JWT'
+                    # description: JWT токен
+                  token_type:
+                    type: string
+                    description: Тип токена ("Bearer")
+        '401':
+          description: Неверные учетные данные или ошибка аутентификации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+components:
+  schemas:
+    Robot:
+      type: object
+      required:
+      - id
+      - model
+      - version
+      - fabricNumber
+      - idFroupUser
+      - resourse
+      - status
+      properties:
+        id:
+          type: integer
+          example: 1
+          description: id робота
+        model:
+          type: string
+          example: AAA3000
+        version:
+          type: string
+          example: 123fff456
+          description: Верия ПО
+        fabricNumber:
+          type: string
+          example: 123qwe456
+        resourse:
+          type: integer
+          description: Пробег робота
+        status:
+          type: string
+          description: Статут работа
+          example: worked
+    User:
+      type: object
+      required:
+      - id
+      - login
+      - hash
+      - email
+      properties:
+        id:
+          type: integer
+          example: 1
+          description: id юзера
+        login:
+          type: string
+          description: Логин
+        hash:
+          type: string
+        email:
+          type: string
+    Error:
+      type: object
+      required:
+      - errorMessage
+      - errorCode
+      properties:
+        errorMessage:
+          type: string
+        errorCode:
+          type: string
+
+    JWT:
+      type: string
+      description: JSON Web Token
+      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+        
+  
